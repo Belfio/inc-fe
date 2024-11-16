@@ -1,16 +1,22 @@
-import "./App.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
+
+import {
+  ConnectionProvider,
+  WalletProvider,
+} from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Nav from "./components/Nav";
+import useWeb3 from "./hooks/useWeb3";
 
 const routeNames = import.meta.glob("./routes/**/*.tsx", { eager: true });
-
 interface RouteModule {
   default: React.ComponentType;
   loader?: () => Promise<any>;
   action?: () => Promise<any>;
   ErrorBoundary?: React.ComponentType;
 }
-
 const routes = [];
 for (const path of Object.keys(routeNames)) {
   const fileName = path.match(/\.\/routes\/(.*)\.tsx$/)?.[1];
@@ -23,7 +29,6 @@ for (const path of Object.keys(routeNames)) {
     : fileName.replace(/\/index/, "");
 
   const routeModule = routeNames[path] as RouteModule;
-  console.log(routeModule.default);
   routes.push({
     path: fileName === "index" ? "/" : `/${normalizedPathName.toLowerCase()}`,
     Element: routeModule.default,
@@ -32,7 +37,6 @@ for (const path of Object.keys(routeNames)) {
     ErrorBoundary: routeModule.ErrorBoundary,
   });
 }
-
 const router = createBrowserRouter(
   routes.map(({ Element, ErrorBoundary, ...rest }) => ({
     ...rest,
@@ -51,13 +55,24 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const { endpoint, wallets } = useWeb3();
+
   return (
-    <RouterProvider
-      router={router}
-      future={{
-        v7_startTransition: true,
-      }}
-    />
+    <>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            <Nav />
+            <RouterProvider
+              router={router}
+              future={{
+                v7_startTransition: true,
+              }}
+            />
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </>
   );
 }
 

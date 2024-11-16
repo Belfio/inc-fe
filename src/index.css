@@ -5,7 +5,8 @@
 /* ... */
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "Fira Code", monospace;
   line-height: 1.5;
   font-weight: 400;
 
@@ -30,10 +31,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: "Fira Code", monospace;
+  width: 100%;
 }
 
 h1 {

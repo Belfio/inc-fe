@@ -1,15 +1,13 @@
-// import { useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "react-router-dom";
 
 export default function Search() {
-  //   const [searchParams] = useSearchParams();
-  //   const q = searchParams.get("q");
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get("q");
 
-  //   console.log("Search query:", q);
-  console.log("Search query:");
   return (
     <div>
       <h1>Search Page</h1>
-      {/* {q ? <p>Query: {q}</p> : <p>No search query provided.</p>} */}
+      {q ? <p>Query: {q}</p> : <p>No search query provided.</p>}
     </div>
   );
 }

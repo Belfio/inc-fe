@@ -1,8 +1,10 @@
-import { FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import useWeb3 from "@/hooks/useWeb3";
+import { FormEvent, useEffect } from "react";
+import { Link, useNavigate, useFetcher } from "react-router-dom";
 
 export default function Landing() {
   const navigate = useNavigate();
+  const fetcher = useFetcher();
   function onSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     const formData = new FormData(ev.target as HTMLFormElement);
@@ -10,17 +12,18 @@ export default function Landing() {
     console.log(name);
     navigate(`/search?q=${name}`);
   }
+
+  const { connection } = useWeb3();
+  const getSlot = async () => {
+    let slot = await connection.getSlot();
+
+    console.log("Slot", slot);
+  };
+  useEffect(() => {
+    getSlot();
+  }, []);
   return (
     <div className="min-h-screen bg-white text-black font-mono">
-      {/* Header */}
-      <header className="flex justify-between items-center px-8 py-4 bg-black text-white">
-        <div className="text-lg tracking-wide">INTERNET NATIVE COMPANY</div>
-        <button className="bg-[#3D4E81] w-[240px] px-4 py-4 rounded text-white text-sm tracking-wide text-left">
-          <div className="py-4">c</div>
-          LOGIN
-        </button>
-      </header>
-
       {/* Main Content */}
       <main className="max-w-4xl mx-auto mt-8 px-8">
         {/* Stats Section */}
@@ -45,29 +48,28 @@ export default function Landing() {
 
         {/* Registration Form */}
 
-        {/* <fetcher.Form
+        <fetcher.Form
           method="post"
           onSubmit={onSubmit}
           className="flex gap-4 mb-32"
-        > */}
-        <input
-          type="text"
-          placeholder="Type the company name you want"
-          className="flex-1 bg-gray-100 rounded px-4 py-4 text-gray-800 placeholder-gray-400"
-          name="companyName"
-          // disabled={fetcher.state !== "idle"}
-        />
-        <Link to={`/search`}>
-          <button
-            className="bg-[#3D4E81] px-8 py-2 rounded text-white"
-            type="submit"
+        >
+          <input
+            type="text"
+            placeholder="Type the company name you want"
+            className="flex-1 bg-gray-100 rounded px-4 py-4 text-gray-800 placeholder-gray-400"
+            name="companyName"
             // disabled={fetcher.state !== "idle"}
-          >
-            REGISTER
-          </button>
-        </Link>
-
-        {/* </fetcher.Form> */}
+          />
+          <Link to={`/search?q=paolo`}>
+            <button
+              className="bg-[#3D4E81] px-8 py-2 rounded text-white"
+              type="submit"
+              // disabled={fetcher.state !== "idle"}
+            >
+              REGISTER
+            </button>
+          </Link>
+        </fetcher.Form>
 
         {/* Content Card */}
         <div className="bg-white rounded-lg shadow-lg p-8">
