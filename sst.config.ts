@@ -8,7 +8,5 @@ export default $config({
       home: "aws",
     };
   },
-  async run() {
-    new sst.aws.SolidStart("INC-FE");
-  },
+  async run() {},
 });
