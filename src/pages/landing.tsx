@@ -13,7 +13,7 @@ export default function Landing() {
     navigate(`/search?q=${name}`);
   }
 
-  const { connection } = useWeb3();
+  const { connection, program } = useWeb3();
   const getSlot = async () => {
     let slot = await connection.getSlot();
 

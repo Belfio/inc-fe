@@ -1,0 +1,289 @@
+{
+  "address": "7kmLroKer2JooHLqQi8ugBRHhVVTudxUm1JsAa9gpyhK",
+  "metadata": {
+    "name": "inc_factory",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create_company",
+      "discriminator": [
+        36,
+        192,
+        217,
+        147,
+        233,
+        129,
+        198,
+        18
+      ],
+      "accounts": [
+        {
+          "name": "company_registry",
+          "writable": true
+        },
+        {
+          "name": "new_company",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "company_name",
+          "type": "string"
+        },
+        {
+          "name": "jurisdiction",
+          "type": "string"
+        },
+        {
+          "name": "shareholders",
+          "type": {
+            "vec": "pubkey"
+          }
+        },
+        {
+          "name": "share_amounts",
+          "type": {
+            "vec": "u64"
+          }
+        },
+        {
+          "name": "voters",
+          "type": {
+            "vec": "pubkey"
+          }
+        },
+        {
+          "name": "vote_amounts",
+          "type": {
+            "vec": "u64"
+          }
+        }
+      ]
+    },
+    {
+      "name": "get_company_by_name",
+      "discriminator": [
+        197,
+        60,
+        118,
+        177,
+        172,
+        48,
+        68,
+        194
+      ],
+      "accounts": [
+        {
+          "name": "company_registry"
+        }
+      ],
+      "args": [
+        {
+          "name": "company_name",
+          "type": "string"
+        }
+      ],
+      "returns": "pubkey"
+    },
+    {
+      "name": "get_company_list",
+      "discriminator": [
+        51,
+        248,
+        58,
+        75,
+        239,
+        203,
+        29,
+        217
+      ],
+      "accounts": [
+        {
+          "name": "company_registry"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "vec": "pubkey"
+      }
+    },
+    {
+      "name": "initialize_registry",
+      "discriminator": [
+        189,
+        181,
+        20,
+        17,
+        174,
+        57,
+        249,
+        59
+      ],
+      "accounts": [
+        {
+          "name": "company_registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  112,
+                  97,
+                  110,
+                  121,
+                  95,
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Company",
+      "discriminator": [
+        32,
+        212,
+        52,
+        137,
+        90,
+        7,
+        206,
+        183
+      ]
+    },
+    {
+      "name": "CompanyRegistry",
+      "discriminator": [
+        27,
+        30,
+        241,
+        213,
+        171,
+        175,
+        54,
+        176
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NameAlreadyTaken",
+      "msg": "Company name already taken"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidName",
+      "msg": "Invalid company name"
+    },
+    {
+      "code": 6002,
+      "name": "EmptyNameNotValid",
+      "msg": "Empty name not valid"
+    },
+    {
+      "code": 6003,
+      "name": "CompanyNotFound",
+      "msg": "Company not found"
+    },
+    {
+      "code": 6004,
+      "name": "RegistryAlreadyExists",
+      "msg": "Registry already exists"
+    }
+  ],
+  "types": [
+    {
+      "name": "Company",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "company_name",
+            "type": "string"
+          },
+          {
+            "name": "jurisdiction",
+            "type": "string"
+          },
+          {
+            "name": "shareholders",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "share_amounts",
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "voters",
+            "type": {
+              "vec": "pubkey"
+            }
+          },
+          {
+            "name": "vote_amounts",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CompanyRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "companies",
+            "type": {
+              "vec": "pubkey"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
